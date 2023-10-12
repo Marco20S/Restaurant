@@ -102,40 +102,59 @@ export default function App() {
     })
   }, [])
 
+  function HomeTab(){
+    <Tab.Navigator  initialRouteName="main"
+    shifting={true}
+    // labeled={false}
+    sceneAnimationEnabled={true}
+    activeColor="black"
+    inactiveColor="white"
+    barStyle={{ backgroundColor: '#ACA567' }}>
+
+    <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={24} color={color} />),}}  name='profile' component={Profile}  />
+    <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={24} color={color} />),}}  name='menu' component={Menu} />
+    <Tab.Screen  name='main' component={Main} options={{headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />),}}/>
+    <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />),}}  name='checkout' component={Cart} />
+    <Tab.Screen name='favorite' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Favourite} />
+    <Tab.Screen name='details' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Details} />
+  </Tab.Navigator>
+
+  }
+
   return (
 
 
     // <View style={styles.container}>
     //   <Text>Open up App.js to start working on your app!</Text>
     //   <StatusBar style="auto" />
-    // </View> screenOptions={{ headerShown: false }}
+    // </View> screenOptions={{ headerShown: false }} tabBarBadge: 3
 
     < NavigationContainer theme={MyTheme} >
 
       {/* <Stack.Navigator screenOptions={{}} >
-        <Stack.Screen name='startwindow' component={StartUpWindow} options={{ headerShown: true }}  /> 
         <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
         <Stack.Screen name='Signup' component={Signup} />
         <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen  name='main' component={Main} options={{headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />),}}/>
-      </Stack.Navigator>*/}
+        <Stack.Screen options={{ headerShown: false }}name='home' component={HomeTab}/>
+      </Stack.Navigator> */}
 
-      <Tab.Navigator  initialRouteName="main"
-        shifting={true}
-        // labeled={false}
-        sceneAnimationEnabled={true}
-        activeColor="black"
-        inactiveColor="white"
-        
-        barStyle={{ backgroundColor: '#ACA567' }}>
+<Tab.Navigator  initialRouteName="main"
+    shifting={true}
+    // labeled={false}
+    sceneAnimationEnabled={true}
+    activeColor="black"
+    inactiveColor="white"
+    barStyle={{ backgroundColor: '#ACA567' }}>
 
-        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={24} color={color} />),}}  name='profile' component={Profile}  />
-        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={24} color={color} />),}}  name='menu' component={Menu} />
-        <Tab.Screen  name='main' component={Main} options={{headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />),}}/>
-        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />),}}  name='checkout' component={Cart} />
-        <Tab.Screen name='favorite' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Favourite} />
-        <Tab.Screen name='details' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Details} />
-      </Tab.Navigator>
+    <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={24} color={color} />),}}  name='profile' component={Profile}  />
+    <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={24} color={color} />),}}  name='menu' component={Menu} />
+    <Tab.Screen  name='main' component={Main} options={{headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />),}}/>
+    <Tab.Screen options={{  headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />),}}  name='checkout' component={Cart} />
+    <Tab.Screen name='favorite' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Favourite} />
+    <Tab.Screen name='details' options={{ headerShown: true,tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />),}} component={Details} />
+  </Tab.Navigator>
+
+     
 
 
     </NavigationContainer >

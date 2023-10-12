@@ -5,7 +5,7 @@ import { Card } from 'react-native-paper'
 import { ScrollView } from 'react-native';
 
 
-export default function ContntCard() {
+export default function ContentCard() {
   return (
     <View marginVertical={10}>
 

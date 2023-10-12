@@ -1,11 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-export default function Cart({ navigation }) {
+export default function Cart({ route, navigation }) {
+
+    const { data, price, quantity } = route.params
+
+    console.log("Data From Details", route.params);
+
+    const [cart, setCart] = useState([])
+
+    // const [added, setAdded] =([])
+    useEffect(() => {
+        setCart([...cart, data])
+        console.log('cart-----', cart);
+    }, [])
+
+
+
+function addedCard(){
+    cart
+}
+
     return (
 
         <View style={styles.container}>
@@ -24,54 +43,45 @@ export default function Cart({ navigation }) {
                 <View style={styles.innerContainer} >
                     {/* </TouchableOpacity><TouchableOpacity> <View style={styles.innerContainer}>paddingLeft={10 } */}
 
-                    <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20,  marginBottom: 5, }}>
+                    <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
 
 
 
-                        <View >
-                            <Avatar.Image size={90} source={require('../assets/rest/Avo_salad.jpg')} />
+                        <View style={{flex:0.6}}>
+                            <Avatar.Image size={90} source={{ uri: data.image?.stringValue }} />
                         </View>
 
-                        <View justifyContent='flex-start' padding={5} >
-                            <Text style={{ fontSize: 20 }} > Don Combo  </Text>
-                            <Text>  Price: R 55.00  </Text>
+                        <View style={{flex:1, width:"50%"}} justifyContent='flex-start' padding={5} >
+                            <Text style={{ fontSize: 14, paddingBottom: 10 }} > {data.name?.stringValue}  </Text>
+                            {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text> */}
+                            <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: { quantity } </Text>
+
 
                         </View>
 
-                        <View padding={5} backgroundColor={'#c4c4c4'} width={'30%'} style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderRadius: 10 }} >
+                        <View  marginLeft={0} width={'0%'} style={ {flex: 0.2 ,alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
 
-                            <TouchableOpacity>
+                            <TouchableOpacity marginLeft={20}>
                                 <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
 
                             </TouchableOpacity>
-                            <TouchableOpacity>
-                                {/*<MaterialCommunityIcons name="delete-empty" size={24} color="black" /> */}
-                                <MaterialCommunityIcons name="minus" size={24} color="black" />
-                            </TouchableOpacity>
 
-                            <Text> 2 </Text>
-
-                            <TouchableOpacity>
-                                {/**/}
-                                <MaterialIcons name="add" size={24} color="black" />
-                            </TouchableOpacity>
-
-
+                           
                         </View>
 
                     </Card>
-                    
-                   
+
+
                 </View>
 
 
             </ScrollView>
 
             <View style={styles.TotalContainer}>
-                <Text style={styles.appTotal}>Total Amount :                                 R 55.00</Text>
+                <Text style={styles.appTotal}>Total Amount :                                 R {price}</Text>
 
                 <View style={styles.actionContainer} >
-                    <TouchableOpacity onPress={()=>{navigation.navigate('checkout')}} style={styles.actionButton} >
+                    <TouchableOpacity onPress={() => { navigation.navigate('checkout') }} style={styles.actionButton} >
 
                         <Text style={styles.signIn} >
                             Go to checkout</Text>
@@ -79,7 +89,7 @@ export default function Cart({ navigation }) {
                     </TouchableOpacity >
                     <Text></Text>
 
-                    <TouchableOpacity style={styles.actionButton} onPress={()=>{navigation.navigate('main')}} >
+                    <TouchableOpacity style={styles.actionButton} onPress={() => { navigation.navigate('main') }} >
 
                         <Text style={styles.signIn} >
                             Add Items</Text>

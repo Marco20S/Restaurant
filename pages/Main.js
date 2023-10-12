@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -14,6 +14,8 @@ export default function Main({ navigation }) {
   const [description, setDescription] = useState()
   const [price, setPrice] = useState()
   const [menuListMain, setMenulistMain] = useState([])
+  const [menuListcombo, setMenulistCombo] = useState([])
+  const [menuListSide, setMenulistSide] = useState([])
 
 
   let deviceHeight = Dimensions.get('window').height
@@ -23,6 +25,16 @@ export default function Main({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState()
 
   console.log('------------', menuListMain);
+
+
+  useEffect(() => {
+    getMenulistMain()
+    getMenulistCombo()
+    getMenulistSides()
+  }, [])
+
+
+
 
   // logout function
   const logout = () => {
@@ -79,13 +91,22 @@ export default function Main({ navigation }) {
   const getMenulistMain = async () => {
 
     const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
-    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/main/?key=${key}`;
+    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/mains`;
 
     await fetch(url).then(
-      response => response.json()
+
+      response => {
+
+
+        return (response.json())
+      }
     ).then(
       (json) => {
-        const documents = joson.documents
+
+        const documents = json.documents
+
+        // console.log(json);
+
 
         let myMenuArray = []
 
@@ -103,28 +124,36 @@ export default function Main({ navigation }) {
 
         })
 
-        console.log(" records ..........", myMenuArray);
+        // console.log(" records ..........", myMenuArray);
 
         setMenulistMain(myMenuArray)
 
 
       }
-    )
+    ).catch(
+      error => console.log("error", error)
+    );
 
   }
 
   const getMenulistCombo = async () => {
 
     const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
-    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/combos/?key=${key}`;
+    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/combos`;
 
     await fetch(url).then(
-      response => response.json()
-    ).then(
-      (json) => {
-        const documents = joson.documents
 
-        let myMenuArray = []
+      response => {
+        return (response.json())
+      }
+
+    ).then(
+      (data) => {
+        const documents = data.documents
+
+        console.log(data);
+
+        let myMenuArrays = []
 
         documents.forEach(doc => {
           const idarray = doc.name.split('/')
@@ -132,7 +161,7 @@ export default function Main({ navigation }) {
 
           const id = idarray[idarray.length - 1];
 
-          myRecordArray.push({
+          myMenuArrays.push({
             id: id,
             ...doc.fields
           })
@@ -140,13 +169,15 @@ export default function Main({ navigation }) {
 
         })
 
-        console.log(" records ..........", myMenuArray);
+        // console.log(" Combos ..........", myMenuArrays);
 
-        setRecordingFile(myMenuArray)
+        setMenulistCombo(myMenuArrays)
 
 
       }
-    )
+    ).catch(
+      error => console.log("error", error)
+    );
 
   }
 
@@ -159,7 +190,7 @@ export default function Main({ navigation }) {
       response => response.json()
     ).then(
       (json) => {
-        const documents = joson.documents
+        const documents = json.documents
 
         let myMenuArray = []
 
@@ -169,7 +200,7 @@ export default function Main({ navigation }) {
 
           const id = idarray[idarray.length - 1];
 
-          myRecordArray.push({
+          myMenuArray.push({
             id: id,
             ...doc.fields
           })
@@ -177,13 +208,15 @@ export default function Main({ navigation }) {
 
         })
 
-        console.log(" records ..........", myMenuArray);
+        // console.log(" records ..........", myMenuArray);
 
-        setRecordingFile(myMenuArray)
+        setMenulistSide(myMenuArray)
 
 
       }
-    )
+    ).catch(
+      error => console.log("error", error)
+    );
 
   }
 
@@ -193,6 +226,102 @@ export default function Main({ navigation }) {
     getMenulistCombo()
     getMenulistSides()
   }
+
+  //display information
+
+  function displayMains() {
+    return menuListMain.map((data, index) => {
+      return (
+        // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+
+
+
+        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+
+          <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+            <Card.Cover source={{ uri: data.image?.stringValue }} />
+
+            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+          </TouchableOpacity>
+
+        </Card>
+        // </View>
+      )
+    })
+  }
+
+  function displayCombo() {
+    return menuListcombo.map((data, index) => {
+      return (
+        // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+
+
+
+        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+
+          <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+            <Card.Cover source={{ uri: data.image?.stringValue }} />
+
+            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+          </TouchableOpacity>
+
+        </Card>
+        // </View>
+      )
+    })
+  }
+
+  function displaySide() {
+    return menuListSide.map((data, index) => {
+      return (
+        // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+
+
+
+        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+
+          <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+            <Card.Cover source={{ uri: data.image?.stringValue }} />
+
+            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+          </TouchableOpacity>
+
+        </Card>
+        // </View>
+      )
+    })
+  }
+
+  function display(catagory) {
+
+    if (catagory === "Meals") {
+
+      <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} > Meals</Text></View>
+
+      return displayMains()
+
+    } else if (catagory === "Combos") {
+
+
+      <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Combos</Text></View>
+
+      return displayCombo()
+
+    } else if (catagory === "Sides") {
+
+      { <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Sides</Text></View> }
+
+      return displaySide()
+
+    } else {
+
+      <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View>
+
+      return <Text>Popular Meals</Text>
+    }
+
+  }
+
 
   return (
     <View style={styles.container}>
@@ -252,92 +381,51 @@ export default function Main({ navigation }) {
 
 
 
-      {/* <ScrollView style={styles.BottomContainer}>
+      <ScrollView style={styles.BottomContainer}>
 
-        <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View>
-
-
-        <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350  }}>
+        {/* <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View> */}
 
 
+        <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
 
-          <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical:'2%'}} borderWidth={0.001} borderColor='#ACA567' >
-
-            <TouchableOpacity>
-              <Card.Cover source={require('../assets/rest/Don_Combo.jpg')} />
-
-              <Card.Title title="Don Combo" subtitle="Card Subtitle" />
-            </TouchableOpacity>
-
-          </Card>
-
-          <Card style={{ width: "48%", height: 280, marginHorizontal: "1%",marginVertical:'2%' }} borderWidth={0.001} borderColor='#ACA567' >
-
-            <TouchableOpacity>
-              <Card.Cover source={require('../assets/rest/Don_Combo.jpg')} />
-
-              <Card.Title title="Don Combo" subtitle="Card Subtitle" />
-            </TouchableOpacity>
-
-          </Card>
-          <Card style={{ width: "48%", height: 280, marginHorizontal: "1%", marginVertical:'2%' }} borderWidth={0.001} borderColor='#ACA567' >
-
-            <TouchableOpacity>
-              <Card.Cover source={require('../assets/rest/Don_Combo.jpg')} />
-
-              <Card.Title title="Don Combo" subtitle="Card Subtitle" />
-            </TouchableOpacity>
-
-          </Card>
+          {
+            display(catagory)
+          }
 
 
         </View>
 
-      
-
-
-      </ScrollView> */}
-      <Text>UUUUUUUUUUUUUUUUUUUUUUUU
-      </Text>
 
 
 
+      </ScrollView>
+      {/* <Text>UUUUUUUUUUUUUUUUUUUUUUUU
+      </Text> */}
 
 
-      <FlatList
-      style={styles.BottomContainer}
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9,1, 2, 3, 4, 5, 6, 7, 8, 9,1, 2, 3, 4, 5, 6, 7, 8, 9,1, 2, 3, 4, 5, 6, 7, 8, 9]}
+
+
+
+      {/* <FlatList
+        style={styles.BottomContainer}
+        data={menuListMain}
         renderItem={({ item }) => {
           return (
             <Text>{item}
-          </Text>
+            </Text>
           )
-          
 
 
-        }} />
 
-      
-
+        }} /> */}
 
 
 
 
-      { //   <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350  }}>
 
-        //   <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical:'1%' }} borderWidth={0.001} borderColor='#ACA567' >
 
-        //   <TouchableOpacity>
-        //     <Card.Cover source={{uri: data.image?.stringValue}} />
 
-        //     <Card.Title title="Don Combo" subtitle="Card Subtitle" />
-        //   </TouchableOpacity>
-
-        // </Card>
-
-        // </View>
-      }
-
+  
 
 
 
