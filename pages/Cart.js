@@ -1,29 +1,61 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Avatar, Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CartContext } from '../CartContext/cartContext';
+
 
 
 export default function Cart({ route, navigation }) {
 
-    const { data, price, quantity } = route.params
+    // const { data, price, quantity } = route.params
 
-    console.log("Data From Details", route.params);
+    // console.log("Data From Details", route.params);
 
-    const [cart, setCart] = useState([])
+    // const [cart, setCart] = useState([])
 
-    // const [added, setAdded] =([])
+    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+
     useEffect(() => {
-        setCart([...cart, data])
-        console.log('cart-----', cart);
+
     }, [])
 
 
+    function addedCard() {
+        return cartItems.map((item) => {
 
-function addedCard(){
-    cart
-}
+            return (
+
+                <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
+
+                    <View style={{ flex: 0.6 }}>
+                        <Avatar.Image size={90} source={{ uri: item.uri }} />
+                    </View>
+
+                    <View style={{ flex: 1, width: "50%" }} justifyContent='flex-start' padding={5} >
+                        <Text style={{ fontSize: 14, paddingBottom: 10 }} > {item.name}  </Text>
+                        {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text> */}
+                        <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: {item.quantity} </Text>
+
+                    </View>
+
+                    <View marginLeft={0} width={'0%'} style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
+
+                        <TouchableOpacity marginLeft={20} onPress={()=>removeFromCart(item.id)}>
+                            <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
+
+                        </TouchableOpacity>
+
+                    </View>
+
+                </Card>)
+
+        })
+    }
+
+
+
 
     return (
 
@@ -43,34 +75,31 @@ function addedCard(){
                 <View style={styles.innerContainer} >
                     {/* </TouchableOpacity><TouchableOpacity> <View style={styles.innerContainer}>paddingLeft={10 } */}
 
-                    <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
+                    {/* <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
 
-
-
-                        <View style={{flex:0.6}}>
+                        <View style={{ flex: 0.6 }}>
                             <Avatar.Image size={90} source={{ uri: data.image?.stringValue }} />
                         </View>
 
-                        <View style={{flex:1, width:"50%"}} justifyContent='flex-start' padding={5} >
+                        <View style={{ flex: 1, width: "50%" }} justifyContent='flex-start' padding={5} >
                             <Text style={{ fontSize: 14, paddingBottom: 10 }} > {data.name?.stringValue}  </Text>
-                            {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text> */}
-                            <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: { quantity } </Text>
-
+                            {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text>
+                            <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: {quantity} </Text>
 
                         </View>
 
-                        <View  marginLeft={0} width={'0%'} style={ {flex: 0.2 ,alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
+                        <View marginLeft={0} width={'0%'} style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
 
                             <TouchableOpacity marginLeft={20}>
                                 <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
 
                             </TouchableOpacity>
 
-                           
                         </View>
 
-                    </Card>
+                    </Card> */}
 
+                    {addedCard()}
 
                 </View>
 
@@ -78,7 +107,7 @@ function addedCard(){
             </ScrollView>
 
             <View style={styles.TotalContainer}>
-                <Text style={styles.appTotal}>Total Amount :                                 R {price}</Text>
+                <Text style={styles.appTotal}>Total Amount :                                 R 1000</Text>
 
                 <View style={styles.actionContainer} >
                     <TouchableOpacity onPress={() => { navigation.navigate('checkout') }} style={styles.actionButton} >
@@ -193,18 +222,21 @@ const styles = StyleSheet.create({
     },
 
     actionContainer: {
-        height: 120,
+        // height: 90,
+        marginBottom: 10,
+        width: "100%",
         top: 10,
-        // // backgroundColor: 'blue',
+        // backgroundColor: 'blue',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
+        flexDirection: 'row'
     },
     actionButton: {
         // flex: 1,
         backgroundColor: '#ACA567',
         borderRadius: 5,
         height: 45,
-        width: 300,
+        width: 150,
         paddingvertical: 20,
         alignItems: 'center',
         justifyContent: 'center',

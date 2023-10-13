@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Avatar, Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
+import { CartContext } from '../CartContext/cartContext';
+import { serverTimestamp } from '@firebase/firestore';
+// import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 
 
@@ -13,13 +16,20 @@ export default function Details({ route, navigation }) {
     const { data } = route.params
     // console.log(data);
 
+
+
     const Pricetag = Number(data.price?.stringValue)
 
     const [value, setValue] = useState(1);
     const [price, setPrice] = useState(Pricetag)
+    // const [item, setItem] = useState()
 
 
+    // setItem(price,data.id)
+    // console.log(item);
 
+
+    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
     function increment() {
         const currentValue = value + 1
@@ -42,9 +52,25 @@ export default function Details({ route, navigation }) {
         const updatedPrice = Pricetag * currentValue
         setPrice(updatedPrice)
 
+
+    }
+
+    function added() {
+
+        const addedItem = {
+            uri: data.image?.stringValue,
+            name: data.name?.stringValue,
+            id: data.id,
+            quantity: value,
+            price:price
+        }
+
+        addToCart(addedItem)
+        
     }
 
 
+    // console.log(addToCart);
 
     return (
         <View style={styles.container}>
@@ -75,7 +101,6 @@ export default function Details({ route, navigation }) {
 
                         <Card style={{ height: 300, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
 
-
                             <Card.Content style={{ height: 250, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
                                 <Text style={{ fontSize: 20, fontWeight: "bold", paddingBottom: 10 }} variant="titleLarge">{data.name?.stringValue}</Text>
                                 <Text>Description:</Text>
@@ -88,11 +113,6 @@ export default function Details({ route, navigation }) {
 
                                     <View padding={8} backgroundColor={'#c4c4c4'} width={'30%'} style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderRadius: 230 }} >
 
-                                        {/* <TouchableOpacity>
-
-                                            <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
-
-                                        </TouchableOpacity> */}
                                         <TouchableOpacity onPress={decrement}>
                                             {/*<MaterialCommunityIcons name="delete-empty" size={24} color="black" /> */}
                                             <MaterialCommunityIcons name="minus" size={24} color="black" />
@@ -107,35 +127,22 @@ export default function Details({ route, navigation }) {
 
                                     </View>
 
-                                    <Button style={{backgroundColor:"#ACA567", }} mode="contained" onPress={() => (navigation.navigate('checkout', { data: data, price:price, quantity:value }))}>
+                                    <Button style={{ backgroundColor: "#ACA567", }} mode="contained" onPress={added}>
                                         Add to cart   R{price}
                                     </Button>
 
-
                                     {/* <Button onPress={() => (console.log('Added'))}>Cancel </Button> */}
                                     {/* <Button>Ok</Button> */}
-                                </Card.Actions>
 
+                                </Card.Actions>
 
                             </Card.Content>
 
-
-
-
-
-
-
                         </Card>
-
 
                     </View>
 
-
-
                 </ScrollView>
-
-
-
 
             </View>
 

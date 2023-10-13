@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { Avatar, Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -234,8 +234,6 @@ export default function Main({ navigation }) {
       return (
         // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
 
-
-
         <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
 
           <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
@@ -395,40 +393,8 @@ export default function Main({ navigation }) {
 
         </View>
 
-
-
-
       </ScrollView>
-      {/* <Text>UUUUUUUUUUUUUUUUUUUUUUUU
-      </Text> */}
-
-
-
-
-
-      {/* <FlatList
-        style={styles.BottomContainer}
-        data={menuListMain}
-        renderItem={({ item }) => {
-          return (
-            <Text>{item}
-            </Text>
-          )
-
-
-
-        }} /> */}
-
-
-
-
-
-
-
-  
-
-
-
+     
     </View>
 
 
