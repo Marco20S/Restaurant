@@ -16,6 +16,7 @@ export default function Main({ navigation }) {
   const [menuListMain, setMenulistMain] = useState([])
   const [menuListcombo, setMenulistCombo] = useState([])
   const [menuListSide, setMenulistSide] = useState([])
+  const [menuListDrink, setMenulistDrinks] = useState([])
 
 
   let deviceHeight = Dimensions.get('window').height
@@ -31,9 +32,8 @@ export default function Main({ navigation }) {
     getMenulistMain()
     getMenulistCombo()
     getMenulistSides()
+    getMenulistDrinks()
   }, [])
-
-
 
 
   // logout function
@@ -220,6 +220,45 @@ export default function Main({ navigation }) {
 
   }
 
+  const getMenulistDrinks = async () => {
+
+    const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
+    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/drinks/?key=${key}`;
+
+    await fetch(url).then(
+      response => response.json()
+    ).then(
+      (json) => {
+        const documents = json.documents
+
+        let myMenuArray = []
+
+        documents.forEach(doc => {
+          const idarray = doc.name.split('/')
+
+
+          const id = idarray[idarray.length - 1];
+
+          myMenuArray.push({
+            id: id,
+            ...doc.fields
+          })
+
+
+        })
+
+        // console.log(" records ..........", myMenuArray);
+
+        setMenulistDrinks(myMenuArray)
+
+
+      }
+    ).catch(
+      error => console.log("error", error)
+    );
+
+  }
+
 
   const menuItems = () => {
     getMenulistMain()
@@ -290,6 +329,27 @@ export default function Main({ navigation }) {
     })
   }
 
+  function displayDrinks() {
+    return menuListDrink.map((data, index) => {
+      return (
+        // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+
+
+
+        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+
+          <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+            <Card.Cover source={{ uri: data.image?.stringValue }} />
+
+            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+          </TouchableOpacity>
+
+        </Card>
+        // </View>
+      )
+    })
+  }
+
   function display(catagory) {
 
     if (catagory === "Meals") {
@@ -311,7 +371,11 @@ export default function Main({ navigation }) {
 
       return displaySide()
 
-    } else {
+    } else if(catagory === "Drinks"){
+      return displayDrinks()
+
+    }else
+    {
 
       <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View>
 
@@ -384,7 +448,8 @@ export default function Main({ navigation }) {
         {/* <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View> */}
 
 
-        <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+        {/* <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}> */}
+        <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width:350 }}>
 
           {
             display(catagory)
@@ -430,7 +495,7 @@ const styles = StyleSheet.create({
   },
 
   BottomContainer: {
-    flex: 2,
+    flex: 1,
     // backgroundColor: 'blue',
     paddingLeft: 5,
     paddingBottom: 10,

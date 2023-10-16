@@ -76,7 +76,7 @@ export default function Details({ route, navigation }) {
         <View style={styles.container}>
             <View style={styles.TopContainer}>
 
-                <View style={{ width: '100%', paddingLeft: 5, paddingTop: 50, alignItems: "center", justifyContent: 'center' }}>
+                <View style={{ width: '100%', paddingLeft: 0, paddingTop: 50, alignItems: "center", justifyContent: 'center' }}>
 
 
                     <Text style={styles.appName} >Details</Text>
@@ -92,24 +92,24 @@ export default function Details({ route, navigation }) {
                     <View >
 
                         <Card style={{ width: '100%' }} >
-                            <Card.Cover style={{ height: 350, borderColor: 'black', borderRadius: 0, width: 400 }} source={{ uri: data.image?.stringValue }} />
+                            <Card.Cover style={{ height: 350, borderColor: 'black', borderRadius: 0, marginRight:5 , width: 400 }} source={{ uri: data.image?.stringValue }} />
                         </Card>
 
                     </View>
 
                     <View>
 
-                        <Card style={{ height: 300, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
+                        <Card style={{ justifyContent:'center', height: 290, borderColor: 'black', borderRadius: 0, width: "100%", marginRight:0 ,  backgroundColor: '#f2f2f2' }}>
 
-                            <Card.Content style={{ height: 250, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
-                                <Text style={{ fontSize: 20, fontWeight: "bold", paddingBottom: 10 }} variant="titleLarge">{data.name?.stringValue}</Text>
+                            <Card.Content style={{ height: 350, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
+                                <Text style={{ fontSize: 19, fontWeight: "bold", paddingBottom: 10 }} variant="titleLarge">{data.name?.stringValue}</Text>
                                 <Text>Description:</Text>
-                                <Text style={{ fontSize: 20, fontWeight: "200", paddingBottom: 10 }} variant="bodyMedium">{data.description?.stringValue}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: "200", paddingBottom: 10 }} variant="bodyMedium">{data.description?.stringValue}</Text>
                                 <Text>Price: </Text>
-                                <Text style={{ fontSize: 20, fontWeight: "100", paddingBottom: 10 }} variant="bodyMedium">R {data.price?.stringValue}</Text>
+                                <Text style={{ fontSize: 18, fontWeight: "100", paddingBottom: 10 }} variant="bodyMedium">R {data.price?.stringValue}</Text>
 
 
-                                <Card.Actions style={{ marginRight: 30, justifyContent: "space-between" }}>
+                                <Card.Actions style={{ marginRight: 30, justifyContent: "space-between",flexDirection:'row', alignItems:'center' }}>
 
                                     <View padding={8} backgroundColor={'#c4c4c4'} width={'30%'} style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderRadius: 230 }} >
 
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
         width: '100%',
-        height: 300,
+        height: "100%",
         paddingBottom: 0,
 
 

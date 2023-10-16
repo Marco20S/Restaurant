@@ -10,7 +10,7 @@ export default function Signup({ navigation }) {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [name, setName] = useState()
-    const [surname, setSurame] = useState()
+    const [surname, setSurname] = useState()
     const [contact, setContact] = useState()
     const [address, setAddress] = useState()
     const [card, setCard] = useState()
@@ -37,7 +37,7 @@ export default function Signup({ navigation }) {
 
     const newUsers = async () => {
 
-        const newUser = { email, username, password }
+        const newUser = { email, name, password }
         try {
             // collection in firebase where user will be added
             const userRef = await setDoc(doc(database, 'Users', newUser.email), newUser)
@@ -47,8 +47,11 @@ export default function Signup({ navigation }) {
 
             //adding user data to firebase/firestore
             setEmail('');
-            setUsername('');
-            setPassword('')
+            setName('');
+            setSurname('');
+            setContact('');
+            setAddress('');
+            // setPassword('')
 
 
         } catch (error) {
@@ -73,7 +76,7 @@ export default function Signup({ navigation }) {
                 surname: { stringValue: surname },
                 contact: { stringValue: contact },
                 address: { stringValue: address },
-                card: { stringValue: card },
+                
 
             }
         }

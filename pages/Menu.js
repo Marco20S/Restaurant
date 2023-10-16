@@ -15,11 +15,13 @@ export default function Menu({ navigation }) {
     const [menuListMain, setMenuListMain] = useState([]);
     const [menuListCombo, setMenuListCombo] = useState([]);
     const [menuListSides, setMenuListSide] = useState([]);
+    const [menuListDrink, setMenuListdrink] = useState([]);
 
     useEffect(() => {
         getMenulistMain()
         getMenulistCombo()
         getMenulistSides()
+        getMenulistDrinks()
     }, [])
 
     //getting menu items from firestore
@@ -156,6 +158,45 @@ export default function Menu({ navigation }) {
 
     }
 
+    const getMenulistDrinks = async () => {
+
+        const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
+        const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/drinks/?key=${key}`;
+    
+        await fetch(url).then(
+          response => response.json()
+        ).then(
+          (json) => {
+            const documents = json.documents
+    
+            let myMenuArray = []
+    
+            documents.forEach(doc => {
+              const idarray = doc.name.split('/')
+    
+    
+              const id = idarray[idarray.length - 1];
+    
+              myMenuArray.push({
+                id: id,
+                ...doc.fields
+              })
+    
+    
+            })
+    
+            // console.log(" records ..........", myMenuArray);
+    
+            setMenuListdrink(myMenuArray)
+    
+    
+          }
+        ).catch(
+          error => console.log("error", error)
+        );
+    
+      }
+
 
     const menuItems = () => {
         getMenulistMain()
@@ -163,7 +204,7 @@ export default function Menu({ navigation }) {
         getMenulistSides()
     }
 
-
+//displaying them on the screen
     function displayMain() {
         return menuListMain.map((data, index) => {
             return (
@@ -245,6 +286,33 @@ export default function Menu({ navigation }) {
         })
     }
 
+    function displayDrink() {
+        return menuListDrink.map((data, index) => {
+            return (
+                <View marginVertical={10}>
+
+                    {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }} >Combos </Text> */}
+
+                    <Card >
+
+                        <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+                            <Card.Cover source={{ uri: data.image?.stringValue }} />
+                            {/* {console.log(data.name?.stringValue)} */}
+                            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+
+                            <Card.Actions>
+                                <TouchableOpacity>
+                                    <MaterialIcons name="favorite" size={24} color="black" padding={10} />
+                                </TouchableOpacity>
+                            </Card.Actions>
+
+                        </TouchableOpacity>
+                    </Card>
+                </View>
+            )
+        })
+    }
+
     return (
 
         <View style={styles.container}>
@@ -272,7 +340,6 @@ export default function Menu({ navigation }) {
 
 
 
-
                     <View>
 
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }} >Combos</Text>
@@ -286,6 +353,13 @@ export default function Menu({ navigation }) {
                         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Sides</Text>
 
                         {displaySide()}
+                    </View>
+
+                    <View>
+
+                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Drinks</Text>
+
+                        {displayDrink()}
                     </View>
 
 

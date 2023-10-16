@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
@@ -50,6 +50,25 @@ export default function Login({navigation}) {
 
 
     }
+
+    const gotohomePage = (() => {
+
+        currentUser().then((responseData) => {
+            console.log('responseData', responseData);
+
+            if (responseData.email ) {
+                Alert.alert('Success', 'User Successfully Logged in successfully')
+                navigation.navigate('home',{email: responseData.email})
+            }
+            else {
+
+                Alert.alert("Invaild, Please Enter the Correct Email or Password")
+            }
+
+          
+        })
+
+    })
     
 
     return (
@@ -71,7 +90,7 @@ export default function Login({navigation}) {
 
 
                         <View style={styles.actionContainer} >
-                            <TouchableOpacity  onPress={() => navigation.navigate('home')}style={styles.actionButton} >
+                            <TouchableOpacity  onPress={gotohomePage}style={styles.actionButton} >
 
                                 <Text style={styles.signIn} >
                                     Login</Text>

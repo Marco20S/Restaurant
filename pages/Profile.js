@@ -1,9 +1,21 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { getAuth, signOut } from "firebase/auth";
 
-export default function Profile() {
+export default function Profile({navigation}) {
+
+  const logout = () => {
+
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        Alert.alert("Success", "User has logged out Successfully")
+        navigation.navigate('Login')
+    })
+
+}
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -37,17 +49,44 @@ export default function Profile() {
             <TextInput style={styles.TextInput} value={surname} placeholder="Surname" onChangeText={(value) => setSurame(value)} />
             <TextInput style={styles.TextInput} value={contact} placeholder="Contact Details" onChangeText={(value) => setContact(value)} />
             <TextInput style={styles.TextInput} value={address} placeholder="Address" onChangeText={(value) => setAddress(value)} />
-            <TextInput style={styles.TextInput} value={card} placeholder="Card number" onChangeText={(value) => setCard(value)} />
+            {/* <TextInput style={styles.TextInput} value={card} placeholder="Card number" onChangeText={(value) => setCard(value)} /> */}
 
             {/* <Button/> onPress={register}*/}
+
             <View style={styles.actionContainer} >
+
               <TouchableOpacity style={styles.actionButton} >
 
                 <Text style={styles.signIn} >
                   Edit Profile</Text>
 
               </TouchableOpacity >
+
+              <Text></Text>
+
+              <TouchableOpacity onPress={logout} style={styles.actionLogoutButton} >
+
+                <Text style={styles.logout} >
+               <AntDesign name="logout" size={18} color="red" />   Logout    </Text>
+
+                 
+
+              </TouchableOpacity >
+
+
             </View>
+
+            {/* <View style={styles.actionContainer} >
+
+              <TouchableOpacity style={styles.actionLogoutButton}  >
+
+                <Text style={styles.signIn} >
+                  Logout</Text>
+
+              </TouchableOpacity >
+
+            </View> */}
+
 
 
             {/* <View style={styles.actionSignButton}>
@@ -98,7 +137,7 @@ const styles = StyleSheet.create({
   },
 
   BottomContainer: {
-    flex: 2,
+    flex: 0,
     // backgroundColor: 'blue',
     // alignItems: 'center',
     // justifyContent: 'center',
@@ -145,6 +184,8 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
   },
+
+
   actionButton: {
     // flex: 1,
     backgroundColor: '#ACA567',
@@ -157,6 +198,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     // TextColor:'white'
   },
+
+
+  actionLogoutButton: {
+    // flex: 1,
+    backgroundColor: 'transparent',
+    borderRadius: 5,
+    height: 45,
+    width: 300,
+    paddingvertical: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: "center",
+    borderWidth:0.2
+    // TextColor:'white'
+  },
+
   actionSignButton: {
     flexDirection: 'row',
     // backgroundColor: '#e55d85',
@@ -195,6 +252,11 @@ const styles = StyleSheet.create({
   },
   signIn: {
     color: 'white',
+
+
+  },
+  logout: {
+    color: 'red',
 
 
   }

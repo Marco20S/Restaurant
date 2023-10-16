@@ -106,24 +106,26 @@ export default function App() {
     })
   }, [])
 
-  // function HomeTab() {
-  //   <Tab.Navigator initialRouteName="main"
-  //     shifting={true}
-  //     // labeled={false}
-  //     sceneAnimationEnabled={true}
-  //     activeColor="black"
-  //     inactiveColor="white"
-  //     barStyle={{ backgroundColor: '#ACA567' }}>
+  function HomeTab() {
+    return(
+    <Tab.Navigator  initialRouteName="main"
+      shifting={true}
+      height={100}
+      // labeled={false}
+      sceneAnimationEnabled={true}
+      activeColor="black"
+      inactiveColor="white"
+      barStyle={{ backgroundColor: '#ACA567', radius:200, height:70 }}>
 
-  //     <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={24} color={color} />), }} name='profile' component={Profile} />
-  //     <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={24} color={color} />), }} name='menu' component={Menu} />
-  //     <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />), }} />
-  //     <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />), }} name='checkout' component={Cart} />
-  //     <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Favourite} />
-  //     <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
-  //   </Tab.Navigator>
-
-  // }
+      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={20} color={color} />), }} name='profile' component={Profile} />
+      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={20} color={color} />), }} name='menu' component={Menu} />
+      <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={20} />), }} />
+      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={20} color={color} />), }} name='checkout' component={Cart} />
+      <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={20} color={color} />), }} component={Favourite} />
+      {/* <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} /> */}
+    </Tab.Navigator>
+)
+  }
 
   return (
 
@@ -138,15 +140,16 @@ export default function App() {
       <PaperProvider>
         < NavigationContainer theme={MyTheme} >
 
-        {/* <Stack.Navigator screenOptions={{}} >
-        <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
+        <Stack.Navigator screenOptions={{}} >
+        {/* <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
         <Stack.Screen name='Signup' component={Signup} />
-        <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='Login' component={Login} /> */}
         <Stack.Screen options={{ headerShown: false }}name='home' component={HomeTab}/>
-        </Stack.Navigator> */}
+        <Stack.Screen name='details' options={{ headerShown: false, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
+        </Stack.Navigator>
 
 
-          <Tab.Navigator initialRouteName="main"
+          {/* <Tab.Navigator initialRouteName="main"
             shifting={true}
             // labeled={false}
             sceneAnimationEnabled={true}
@@ -160,7 +163,7 @@ export default function App() {
             <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />), }} name='checkout' component={Cart} />
             <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Favourite} />
             <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
-          </Tab.Navigator>
+          </Tab.Navigator> */}
 
 
 
