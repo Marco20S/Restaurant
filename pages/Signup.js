@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { auth, database } from '../Config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from '@firebase/firestore';
 
 export default function Signup({ navigation }) {
 
@@ -14,6 +15,7 @@ export default function Signup({ navigation }) {
     const [contact, setContact] = useState()
     const [address, setAddress] = useState()
     const [card, setCard] = useState()
+    const [userInfo, setUserInfo] = useState()
 
 
     const register = () => {
@@ -21,6 +23,7 @@ export default function Signup({ navigation }) {
         createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
                 newUser()
+                newUsers()
 
                 Alert.alert('Success', 'User Registered successfully')
 
@@ -37,7 +40,50 @@ export default function Signup({ navigation }) {
 
     const newUsers = async () => {
 
-        const newUser = { email, name, password }
+        // const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
+        // const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/users`;
+
+
+        // const documentData = {
+        //     field: {
+
+        //         email: { stringValue: email },
+        //         password: { stringValue: password },
+        //         name: { stringValue: name },
+        //         surname: { stringValue: surname },
+        //         contact: { stringValue: contact },
+        //         address: { stringValue: address },
+
+
+        //     }
+        // }
+
+        // try {
+        //     const response = await fetch(url, {
+
+        //         headers: {
+        //             'Content-Type': "application"
+        //         },
+
+        //         method: "POST",
+        //         body: JSON.stringify(documentData),
+        //     });
+
+        //     if (response.ok) {
+        //         const data = await response.json();
+        //         console.log('data ', data);
+        //     } else {
+        //         console.log('Error,,,', response.statusText);
+        //     }
+
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
+
+
+
+        const newUser = { email, name, surname, contact, address }
+
         try {
             // collection in firebase where user will be added
             const userRef = await setDoc(doc(database, 'Users', newUser.email), newUser)
@@ -46,15 +92,27 @@ export default function Signup({ navigation }) {
             console.log('user reference id', userRef.id);
 
             //adding user data to firebase/firestore
-            setEmail('');
-            setName('');
-            setSurname('');
-            setContact('');
-            setAddress('');
+            // setEmail(email);
+            // setName('');
+            // setSurname('');
+            // setContact('');
+            // setAddress('');
             // setPassword('')
 
+            const user = {
+
+                fields: {
+
+                    email: { stringValue: email },
+                    name: { stringValue: name },
+                    surname: { stringValue: surname },
+                    contact: { stringValue: contact },
+                    address: { stringValue: address },
+                }
+            }
 
         } catch (error) {
+
             console.log(error);
 
         }
@@ -72,11 +130,11 @@ export default function Signup({ navigation }) {
 
                 email: { stringValue: email },
                 password: { stringValue: password },
-                name: { stringValue: name },
-                surname: { stringValue: surname },
-                contact: { stringValue: contact },
-                address: { stringValue: address },
-                
+                // name: { stringValue: name },
+                // surname: { stringValue: surname },
+                // contact: { stringValue: contact },
+                // address: { stringValue: address },
+
 
             }
         }
@@ -125,10 +183,10 @@ export default function Signup({ navigation }) {
                         <TextInput style={styles.TextInput} placeholder="E-mail" value={email} onChangeText={(text) => setEmail(text)} />
                         <TextInput style={styles.TextInput} value={password} placeholder="Password" onChangeText={(value) => setPassword(value)} />
                         <TextInput style={styles.TextInput} placeholder="Name" value={name} onChangeText={(value) => setName(value)} />
-                        <TextInput style={styles.TextInput} value={surname} placeholder="Surname" onChangeText={(value) => setSurame(value)} />
+                        <TextInput style={styles.TextInput} value={surname} placeholder="Surname" onChangeText={(value) => setSurname(value)} />
                         <TextInput style={styles.TextInput} value={contact} placeholder="Contact Details" onChangeText={(value) => setContact(value)} />
                         <TextInput style={styles.TextInput} value={address} placeholder="Address" onChangeText={(value) => setAddress(value)} />
-                        <TextInput style={styles.TextInput} value={card} placeholder="Card number" onChangeText={(value) => setCard(value)} />
+                        {/* <TextInput style={styles.TextInput} value={card} placeholder="Card number" onChangeText={(value) => setCard(value)} /> */}
 
                         {/* <Button/> onPress={register}*/}
                         <View style={styles.actionContainer} >
@@ -141,14 +199,14 @@ export default function Signup({ navigation }) {
                         </View>
 
 
-                        <View style={styles.actionSignButton}>
+                        {/* <View style={styles.actionSignButton}>
 
                             <Text color style={styles.signUpAlready}>Already have an account? </Text>
                             <TouchableOpacity onPress={() => { navigation.navigate('Login') }} style={{ marginLeft: 0 }} >
                                 <Text style={styles.signUp} > Login</Text>
                             </TouchableOpacity>
 
-                        </View>
+                        </View> */}
 
                     </View>
 

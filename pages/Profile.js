@@ -3,22 +3,28 @@ import React, { useState } from 'react'
 import { Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, auth } from "firebase/auth";
 
-export default function Profile({navigation}) {
+export default function Profile({ route, navigation }) {
+
+
+  // const {email} = route.params;
+
+  // console.log('uuserEmail',email);
+
 
   const logout = () => {
 
     const auth = getAuth();
     signOut(auth).then(() => {
-        Alert.alert("Success", "User has logged out Successfully")
-        navigation.navigate('Login')
+      Alert.alert("Success", "User has logged out Successfully")
+      navigation.navigate('Login')
     })
 
-}
+  }
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  // const [email, setEmail] = useState()
+  // const [password, setPassword] = useState()
   const [name, setName] = useState()
   const [surname, setSurame] = useState()
   const [contact, setContact] = useState()
@@ -43,8 +49,8 @@ export default function Profile({navigation}) {
         <View style={styles.innerContainer} >
 
           <View >
-            <TextInput style={styles.TextInput} placeholder="E-mail" value={email} onChangeText={(text) => setEmail(text)} />
-            <TextInput style={styles.TextInput} value={password} placeholder="Surname" onChangeText={(value) => setPassword(value)} />
+            {/* <TextInput style={styles.TextInput} placeholder="E-mail" value={email} onChangeText={(text) => setEmail(text)} /> */}
+            {/* <TextInput style={styles.TextInput} value={password} placeholder="Surname" onChangeText={(value) => setPassword(value)} /> */}
             <TextInput style={styles.TextInput} placeholder="Name" value={name} onChangeText={(value) => setName(value)} />
             <TextInput style={styles.TextInput} value={surname} placeholder="Surname" onChangeText={(value) => setSurame(value)} />
             <TextInput style={styles.TextInput} value={contact} placeholder="Contact Details" onChangeText={(value) => setContact(value)} />
@@ -67,9 +73,9 @@ export default function Profile({navigation}) {
               <TouchableOpacity onPress={logout} style={styles.actionLogoutButton} >
 
                 <Text style={styles.logout} >
-               <AntDesign name="logout" size={18} color="red" />   Logout    </Text>
+                  <AntDesign name="logout" size={18} color="red" />   Logout    </Text>
 
-                 
+
 
               </TouchableOpacity >
 
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: "center",
-    borderWidth:0.2
+    borderWidth: 0.2
     // TextColor:'white'
   },
 

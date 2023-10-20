@@ -13,6 +13,7 @@ import { auth } from './Config/firebase';
 import { collection, doc, getDoc } from 'firebase/firestore'
 import { useEffect } from 'react';
 import { PaperProvider } from 'react-native-paper';
+import { StripeProvider } from '@stripe/stripe-react-native'
 
 import OnBoarding from './pages/OnBoarding';
 import Signup from './pages/Signup';
@@ -25,11 +26,14 @@ import Favourite from './pages/Favourite';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
-import {CartContext} from './CartContext/cartContext';
+import { CartContext } from './CartContext/cartContext';
 import MyCartProvider from './CartContext/cartContext';
 // import Main from './pages/Main';
 import Main from './pages/main';
+import Checkout from './pages/Checkout';
 
+
+const stripekey = 'pk_test_51O28RBGty9hvmDKbD4ZeaEN8D6HE0l2nKkmOrhKelV71bDD0xCSs8lcLzVPOlyDx6MbbJrWLUo2WDMJ5NXzqzfnr00mLiXpXGT'
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -84,18 +88,18 @@ export default function App() {
         const docRef = doc(database, 'users', name.email);
         const docSnap = await getDoc(docRef);
 
-        console.log(docRef.firestore.toJSON());
+        // console.log(docRef.firestore.toJSON());
 
         if (docSnap.exists()) {
           const emailRef = docSnap.data();
 
           // do something with emailRef
-          console.log('Document database', emailRef);
+          // console.log('Document database', emailRef);
           // setUP(emailRef)
 
 
         } else {
-          console.log("No such document exists!");
+          // console.log("No such document exists!");
 
         }
 
@@ -107,24 +111,24 @@ export default function App() {
   }, [])
 
   function HomeTab() {
-    return(
-    <Tab.Navigator  initialRouteName="main"
-      shifting={true}
-      height={100}
-      // labeled={false}
-      sceneAnimationEnabled={true}
-      activeColor="black"
-      inactiveColor="white"
-      barStyle={{ backgroundColor: '#ACA567', radius:200, height:70 }}>
+    return (
+      <Tab.Navigator initialRouteName="main"
+        shifting={true}
+        height={100}
+        // labeled={false}
+        sceneAnimationEnabled={true}
+        activeColor="black"
+        inactiveColor="white"
+        barStyle={{ backgroundColor: '#ACA567', radius: 200, height: 70 }}>
 
-      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={20} color={color} />), }} name='profile' component={Profile} />
-      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={20} color={color} />), }} name='menu' component={Menu} />
-      <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={20} />), }} />
-      <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={20} color={color} />), }} name='checkout' component={Cart} />
-      <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={20} color={color} />), }} component={Favourite} />
-      {/* <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} /> */}
-    </Tab.Navigator>
-)
+        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={20} color={color} />), }} name='profile' component={Profile} />
+        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={20} color={color} />), }} name='menu' component={Menu} />
+        <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={20} />), }} />
+        <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={20} color={color} />), }} name='cart' component={Cart} />
+        <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={20} color={color} />), }} component={Favourite} />
+        {/* <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} /> */}
+      </Tab.Navigator>
+    )
   }
 
   return (
@@ -135,42 +139,28 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View> screenOptions={{ headerShown: false }} tabBarBadge: 3
 
+    // <StripeProvider publishableKey={stripekey}>
+    <StripeProvider publishableKey={stripekey}>
+      <MyCartProvider>
+        <PaperProvider>
+          < NavigationContainer theme={MyTheme} >
 
-    <MyCartProvider>
-      <PaperProvider>
-        < NavigationContainer theme={MyTheme} >
+            <Stack.Navigator screenOptions={{}} >
+              {/* <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
+            <Stack.Screen name='Signup' component={Signup} />
+            <Stack.Screen name='Login' component={Login} /> */}
+              <Stack.Screen options={{ headerShown: false }} name='home' component={HomeTab} />
+              <Stack.Screen options={{ headerShown: false }} name='checkout' component={Checkout} />
+              <Stack.Screen options={{ headerShown: false }} name='payment' component={Checkout} />
+              <Stack.Screen name='details' options={{ headerShown: false, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
 
-        <Stack.Navigator screenOptions={{}} >
-        {/* <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
-        <Stack.Screen name='Signup' component={Signup} />
-        <Stack.Screen name='Login' component={Login} /> */}
-        <Stack.Screen options={{ headerShown: false }}name='home' component={HomeTab}/>
-        <Stack.Screen name='details' options={{ headerShown: false, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
-        </Stack.Navigator>
+            </Stack.Navigator>
 
-
-          {/* <Tab.Navigator initialRouteName="main"
-            shifting={true}
-            // labeled={false}
-            sceneAnimationEnabled={true}
-            activeColor="black"
-            inactiveColor="white"
-            barStyle={{ backgroundColor: '#ACA567' }}>
-
-            <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={24} color={color} />), }} name='profile' component={Profile} />
-            <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={24} color={color} />), }} name='menu' component={Menu} />
-            <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={26} />), }} />
-            <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={24} color={color} />), }} name='checkout' component={Cart} />
-            <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Favourite} />
-            <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
-          </Tab.Navigator> */}
-
-
-
-
-        </NavigationContainer >
-      </PaperProvider>
-    </MyCartProvider>
+          </NavigationContainer >
+        </PaperProvider>
+      </MyCartProvider>
+    </StripeProvider>
+    //  {/* // </StripeProvider> */}
 
   );
 }

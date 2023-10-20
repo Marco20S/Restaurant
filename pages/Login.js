@@ -22,7 +22,7 @@ export default function Login({navigation}) {
             returnSecureToken: true,
         }
 
-        console.log(documentData);
+        // console.log(documentData);
 
 
         try {
@@ -54,7 +54,7 @@ export default function Login({navigation}) {
     const gotohomePage = (() => {
 
         currentUser().then((responseData) => {
-            console.log('responseData', responseData);
+            // console.log('responseData', responseData);
 
             if (responseData.email ) {
                 Alert.alert('Success', 'User Successfully Logged in successfully')

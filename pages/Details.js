@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Avatar, Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import { CartContext } from '../CartContext/cartContext';
 import { serverTimestamp } from '@firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 
@@ -16,7 +17,28 @@ export default function Details({ route, navigation }) {
     const { data } = route.params
     // console.log(data);
 
+    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
+
+    useEffect(() => {
+
+        const saveCartToAsync = async (cart) => {
+
+            try {
+                await AsyncStorage.setItem('cart', JSON.stringify(cart))
+
+
+            } catch (error) {
+                console.error(error)
+
+            }
+
+
+        }
+
+        saveCartToAsync(cartItems)
+
+    }, [cartItems])
 
     const Pricetag = Number(data.price?.stringValue)
 
@@ -29,8 +51,7 @@ export default function Details({ route, navigation }) {
     // console.log(item);
 
 
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
-
+   
     function increment() {
         const currentValue = value + 1
         setValue(currentValue)
@@ -62,11 +83,11 @@ export default function Details({ route, navigation }) {
             name: data.name?.stringValue,
             id: data.id,
             quantity: value,
-            price:price
+            price: price
         }
 
         addToCart(addedItem)
-        
+
     }
 
 
@@ -92,14 +113,14 @@ export default function Details({ route, navigation }) {
                     <View >
 
                         <Card style={{ width: '100%' }} >
-                            <Card.Cover style={{ height: 350, borderColor: 'black', borderRadius: 0, marginRight:5 , width: 400 }} source={{ uri: data.image?.stringValue }} />
+                            <Card.Cover style={{ height: 350, borderColor: 'black', borderRadius: 0, marginRight: 5, width: 400 }} source={{ uri: data.image?.stringValue }} />
                         </Card>
 
                     </View>
 
                     <View>
 
-                        <Card style={{ justifyContent:'center', height: 290, borderColor: 'black', borderRadius: 0, width: "100%", marginRight:0 ,  backgroundColor: '#f2f2f2' }}>
+                        <Card style={{ justifyContent: 'center', height: 290, borderColor: 'black', borderRadius: 0, width: "100%", marginRight: 0, backgroundColor: '#f2f2f2' }}>
 
                             <Card.Content style={{ height: 350, borderColor: 'black', borderRadius: 0, width: 400, backgroundColor: '#f2f2f2' }}>
                                 <Text style={{ fontSize: 19, fontWeight: "bold", paddingBottom: 10 }} variant="titleLarge">{data.name?.stringValue}</Text>
@@ -109,7 +130,7 @@ export default function Details({ route, navigation }) {
                                 <Text style={{ fontSize: 18, fontWeight: "100", paddingBottom: 10 }} variant="bodyMedium">R {data.price?.stringValue}</Text>
 
 
-                                <Card.Actions style={{ marginRight: 30, justifyContent: "space-between",flexDirection:'row', alignItems:'center' }}>
+                                <Card.Actions style={{ marginRight: 30, justifyContent: "space-between", flexDirection: 'row', alignItems: 'center' }}>
 
                                     <View padding={8} backgroundColor={'#c4c4c4'} width={'30%'} style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderRadius: 230 }} >
 

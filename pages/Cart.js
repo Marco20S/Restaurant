@@ -1,21 +1,73 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { Avatar, Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CartContext } from '../CartContext/cartContext';
+import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 export default function Cart({ route, navigation }) {
 
-    // const { data, price, quantity } = route.params
-
-    // console.log("Data From Details", route.params);
-
-    // const [cart, setCart] = useState([])
 
     const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+
+    const [cart, setCart] = useState([])
+    const [total, setTotal] = useState("0")
+
+    const animation = useRef(null);
+
+    // removes item that user deletes
+    useEffect(() => {
+
+        const saveCartToAsync = async (cart) => {
+
+            try {
+                await AsyncStorage.setItem('cart', JSON.stringify(cart))
+
+
+            } catch (error) {
+                console.error(error)
+
+            }
+
+        }
+
+        saveCartToAsync(cartItems)
+
+    }, [cartItems])
+
+
+    useEffect(() => {
+        // You can control the ref programmatically, rather than using autoPlay
+        // animation.current?.play();
+        price()
+
+    }, []);
+
+
+    // console.log("items in cart ==========", cartItems);
+
+    function price() {
+
+        const calculateTotalCost = cartItems.reduce((prevPrice, currentPrice) => {
+            return prevPrice + currentPrice.price
+        }, 0)
+
+        const totalPrice = calculateTotalCost
+
+        console.log("users total ======== ", totalPrice);
+
+        setTotal(totalPrice)
+
+    }
+
+
+
+
+
 
     useEffect(() => {
 
@@ -34,6 +86,7 @@ export default function Cart({ route, navigation }) {
                     </View>
 
                     <View style={{ flex: 1, width: "50%" }} justifyContent='flex-start' padding={5} >
+
                         <Text style={{ fontSize: 14, paddingBottom: 10 }} > {item.name}  </Text>
                         {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text> */}
                         <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: {item.quantity} </Text>
@@ -42,7 +95,8 @@ export default function Cart({ route, navigation }) {
 
                     <View marginLeft={0} width={'0%'} style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
 
-                        <TouchableOpacity marginLeft={20} onPress={()=>removeFromCart(item.id)}>
+                        <TouchableOpacity marginLeft={20} onPress={() => removeFromCart(item.id)}>
+
                             <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
 
                         </TouchableOpacity>
@@ -73,31 +127,23 @@ export default function Cart({ route, navigation }) {
             <ScrollView style={styles.BottomContainer}>
 
                 <View style={styles.innerContainer} >
-                    {/* </TouchableOpacity><TouchableOpacity> <View style={styles.innerContainer}>paddingLeft={10 } */}
 
-                    {/* <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
+                    {/* <View style={styles.animationContainer}>
+                        <LottieView
+                            autoPlay
+                            ref={animation}
+                            style={{
+                                width: 200,
+                                height: 200,
+                                backgroundColor: '#eee',
+                            }}
+                            // Find more Lottie files at https://lottiefiles.com/featured
+                            source={require('../assets/EmptyCart.json')}
+                        />
+                    </View> */}
 
-                        <View style={{ flex: 0.6 }}>
-                            <Avatar.Image size={90} source={{ uri: data.image?.stringValue }} />
-                        </View>
 
-                        <View style={{ flex: 1, width: "50%" }} justifyContent='flex-start' padding={5} >
-                            <Text style={{ fontSize: 14, paddingBottom: 10 }} > {data.name?.stringValue}  </Text>
-                            {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text>
-                            <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: {quantity} </Text>
-
-                        </View>
-
-                        <View marginLeft={0} width={'0%'} style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRadius: 10 }} >
-
-                            <TouchableOpacity marginLeft={20}>
-                                <MaterialCommunityIcons name="delete-empty" size={24} color="black" />
-
-                            </TouchableOpacity>
-
-                        </View>
-
-                    </Card> */}
+                    <Text style={{ alignItems: 'center', justifyContent: 'center' }}>Your cart is empty</Text>
 
                     {addedCard()}
 
@@ -107,10 +153,10 @@ export default function Cart({ route, navigation }) {
             </ScrollView>
 
             <View style={styles.TotalContainer}>
-                <Text style={styles.appTotal}>Total Amount :                                 R 1000</Text>
+                <Text style={styles.appTotal}>Total Amount :                                 R {total}</Text>
 
                 <View style={styles.actionContainer} >
-                    <TouchableOpacity onPress={() => { navigation.navigate('checkout') }} style={styles.actionButton} >
+                    <TouchableOpacity onPress={() => { navigation.navigate('checkout', ) }} style={styles.actionButton} >
 
                         <Text style={styles.signIn} >
                             Go to checkout</Text>
@@ -178,7 +224,7 @@ const styles = StyleSheet.create({
     },
 
     BottomContainer: {
-        flex: 2,
+        flex: 0,
         // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -283,6 +329,12 @@ const styles = StyleSheet.create({
         color: 'white',
 
 
-    }
+    },
+    animationContainer: {
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
 
 });
