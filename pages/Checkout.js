@@ -108,7 +108,8 @@ export default function Checkout({ navigation }) {
     if (error){
       Alert.alert('Error')
     } else{
-      Alert.alert('Great',"Your payment has been verified your food is coming your way")
+      Alert.alert('Great',"Your payment has been verified, Your food is coming your way")
+      clearCart()
       navigation.navigate('main')
     }
   }
@@ -129,7 +130,7 @@ export default function Checkout({ navigation }) {
       <ScrollView style={styles.BottomContainer}>
 
         <View style={styles.innerContainer} >
-
+<View>
           {/* <View style={styles.animationContainer}>
                 <LottieView
                     autoPlay
@@ -142,11 +143,11 @@ export default function Checkout({ navigation }) {
                     // Find more Lottie files at https://lottiefiles.com/featured
                     source={require('../assets/EmptyCart.json')}
                 />
-            </View> onPress={logout}*/}
+            </View> onPress={logout}* style={{ height: "100%" }}/}
 
-          <View style={{ height: 900 }}>
+          
 
-            <Card contentStyle={{ backgroundColor: "white" }}>
+            {/* <Card contentStyle={{ backgroundColor: "white" }}>
               <Card.Content>
 
 
@@ -167,7 +168,7 @@ export default function Checkout({ navigation }) {
               </Card.Content>
 
 
-            </Card>
+            </Card> */}
 
             <View>
               <Text style={{ fontSize: 20 }} marginVertical={30}> Items</Text>
@@ -176,7 +177,7 @@ export default function Checkout({ navigation }) {
                 {addedCard()}
                 <View style={styles.actionContainer} >
 
-                  <TouchableOpacity onPress={buy} style={styles.actionButton} >
+                  <TouchableOpacity onPress={buy} style={styles.actionButton1} >
 
                     <Text style={styles.signIn} >
                       Proceed</Text>
@@ -351,6 +352,27 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderBlockColor: "#c4c4c4"
   },
+  actionButton1: {
+    // flex: 1,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+    height: 45,
+    width: "100%",
+    paddingvertical: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: "center",
+    color: 'black',
+    borderColor:' #ACA567',
+    borderWidth:0.5
+},
+register: {
+  color: '#ACA567',
+  fontWeight:"400",
+  letterSpacing:2
+
+
+}
 
 
 });

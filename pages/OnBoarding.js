@@ -9,14 +9,14 @@ import React from 'react'
 
 export default function OnBoarding({ navigation }) {
 
-    const login = () =>{
+    const login = () => {
         navigation.navigate('Login')
     }
 
     return (
 
         <View style={styles.container}>
-            <Image source={ require('../assets/rest/Sky_Cuisine-lo.jpeg') } style={styles.topContainer} >
+            <Image source={require('../assets/rest/Sky_Cuisine-lo.jpeg')} style={styles.topContainer} >
                 {/* <Text style={styles.appName} > SKY CUISINE </Text> */}
             </Image>
 
@@ -34,23 +34,14 @@ export default function OnBoarding({ navigation }) {
                         </TouchableOpacity  >
                         <Text></Text>
 
-                        <TouchableOpacity onPress={() => navigation.navigate('Signup')} style={styles.actionButton} >
+                        <TouchableOpacity onPress={() => navigation.navigate('Signup')} style={styles.actionButton1} >
 
-                            <Text style={styles.signIn} >
+                            <Text style={styles.register} >
                                 Register</Text>
 
                         </TouchableOpacity  >
                     </View>
 
-                    {/* <View style={styles.actionContainer} >
-
-                        <TouchableOpacity onPress={() => navigation.navigate('signup')} style={styles.actionButton} >
-
-                            <Text style={styles.signIn} >
-                                Register</Text>
-
-                        </TouchableOpacity  > 
-                    </View>*/}
                 </View>
             </View>
 
@@ -75,7 +66,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        height:"90%",
+        height: "90%",
 
     },
 
@@ -97,9 +88,9 @@ const styles = StyleSheet.create({
     },
 
     innerContainer: {
-        height: 350,
-        width: 320,
-        padding: 30,
+        height: "100%",
+        width: "100%",
+        padding: 15,
         // flex: 1,
         borderRadius: 20,
         // backgroundColor: 'white',
@@ -128,7 +119,9 @@ const styles = StyleSheet.create({
 
     actionContainer: {
         height: 220,
-        top: 10,
+        top: 40,
+        // borderWidth:1,
+        width:"100%"
         // // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -138,12 +131,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#ACA567',
         borderRadius: 10,
         height: 45,
-        width: 300,
+        // width:'100%',
         paddingvertical: 20,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: "center",
         // TextColor:'white'
+    },
+    actionButton1: {
+        // flex: 1,
+        backgroundColor: 'transparent',
+        borderRadius: 10,
+        height: 45,
+        width: "100%",
+        paddingvertical: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: "center",
+        color: 'black',
+        borderColor:' #ACA567',
+        borderWidth:0.5
     },
     actionSignButton: {
         flexDirection: 'row',
@@ -171,6 +178,13 @@ const styles = StyleSheet.create({
     },
     signIn: {
         color: 'white',
+        letterSpacing:2
+
+    },
+    register: {
+        color: '#ACA567',
+        fontWeight:"400",
+        letterSpacing:2
 
 
     }

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,6 +11,9 @@ export default function Profile({ route, navigation }) {
   // const {email} = route.params;
 
   // console.log('uuserEmail',email);
+  useEffect(()=>{
+    getUserFromFirestore()
+  })
 
 
   const logout = () => {
@@ -30,6 +33,79 @@ export default function Profile({ route, navigation }) {
   const [contact, setContact] = useState()
   const [address, setAddress] = useState()
   const [card, setCard] = useState()
+  const [getUserDetails, setGetUserDetails] = useState()
+
+  const getMenulistMain = async () => {
+
+    const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
+    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/mains`;
+
+    await fetch(url).then(
+
+      response => {
+
+
+        return (response.json())
+      }
+    ).then(
+      (json) => {
+
+        const documents = json.documents
+
+        // console.log(json);
+
+
+        let myMenuArray = []
+
+        documents.forEach(doc => {
+          const idarray = doc.name.split('/')
+
+
+          const id = idarray[idarray.length - 1];
+
+          myMenuArray.push({
+            id: id,
+            ...doc.fields
+          })
+
+
+        })
+
+        // console.log(" records ..........", myMenuArray);
+
+        setMenulistMain(myMenuArray)
+
+
+      }
+    ).catch(
+      error => console.log("error", error)
+    );
+
+  }
+
+  const getUserFromFirestore = async () => {
+    try {
+      // const url = "https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/{collection}/{documentId}";
+
+      // const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/user/${email}`;
+
+      const headers = {
+        Authorization: "Bearer {accessToken}",
+      };
+  
+      const response = await fetch(url, {
+        headers: headers,
+      });
+  
+      const data = await response.json();
+  
+      // Access the user fields and their values
+      const user = data.fields;
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
 

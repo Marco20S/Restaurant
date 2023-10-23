@@ -110,6 +110,8 @@ export default function App() {
     })
   }, [])
 
+
+
   function HomeTab() {
     return (
       <Tab.Navigator initialRouteName="main"
@@ -119,7 +121,7 @@ export default function App() {
         sceneAnimationEnabled={true}
         activeColor="black"
         inactiveColor="white"
-        barStyle={{ backgroundColor: '#ACA567', radius: 200, height: 70 }}>
+        barStyle={{ backgroundColor: '#ACA567', radius: 100, height: 64 }}>
 
         <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Profile', tabBarIcon: ({ color }) => (<FontAwesome5 name="user" size={20} color={color} />), }} name='profile' component={Profile} />
         <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Menu', tabBarIcon: ({ color }) => (<MaterialIcons name="menu-book" size={20} color={color} />), }} name='menu' component={Menu} />

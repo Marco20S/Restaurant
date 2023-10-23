@@ -180,12 +180,24 @@ export default function Signup({ navigation }) {
                 <View style={styles.innerContainer} >
                     {/* <ScrollView > */}
                     <View style={styles.inputContainer} >
-                        <TextInput style={styles.TextInput} placeholder="E-mail" value={email} onChangeText={(text) => setEmail(text)} />
-                        <TextInput style={styles.TextInput} value={password} placeholder="Password" onChangeText={(value) => setPassword(value)} />
-                        <TextInput style={styles.TextInput} placeholder="Name" value={name} onChangeText={(value) => setName(value)} />
-                        <TextInput style={styles.TextInput} value={surname} placeholder="Surname" onChangeText={(value) => setSurname(value)} />
-                        <TextInput style={styles.TextInput} value={contact} placeholder="Contact Details" onChangeText={(value) => setContact(value)} />
-                        <TextInput style={styles.TextInput} value={address} placeholder="Address" onChangeText={(value) => setAddress(value)} />
+
+
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Name</Text>
+                        <TextInput style={styles.TextInput} placeholder="Joe" value={name} onChangeText={(value) => setName(value)} />
+
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Surname</Text>
+                        <TextInput style={styles.TextInput} value={surname} placeholder="Zulu" onChangeText={(value) => setSurname(value)} />
+                        
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Email</Text>
+                        <TextInput style={styles.TextInput} placeholder="Joezulu@gmail.com" value={email} onChangeText={(text) => setEmail(text)} />
+
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Contact Details</Text>
+                        <TextInput style={styles.TextInput} value={contact} placeholder="0987654321" onChangeText={(value) => setContact(value)} />
+
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Password</Text>
+                        <TextInput style={styles.TextInput} value={password} placeholder="******" onChangeText={(value) => setPassword(value)} />
+                        {/* <Text style={{ paddingBottom:3, fontSize:14}}> Email</Text>
+                        <TextInput style={styles.TextInput} value={address} placeholder="Address" onChangeText={(value) => setAddress(value)} /> */}
                         {/* <TextInput style={styles.TextInput} value={card} placeholder="Card number" onChangeText={(value) => setCard(value)} /> */}
 
                         {/* <Button/> onPress={register}*/}
@@ -246,7 +258,7 @@ const styles = StyleSheet.create({
     },
 
     BottomContainer: {
-        flex: 2,
+        flex: 1,
         // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -256,8 +268,8 @@ const styles = StyleSheet.create({
 
     innerContainer: {
         height: 350,
-        width: 320,
-        padding: 30,
+        width: '100%',
+        padding: 20,
         // flex: 1,
         borderRadius: 20,
         // backgroundColor: 'white',
@@ -274,7 +286,7 @@ const styles = StyleSheet.create({
 
     TextInput: {
         height: 45,
-        width: 300,
+        width: '100%',
         borderRadius: 10,
         borderWidth: 2,
         marginVertical: 10,
@@ -286,7 +298,8 @@ const styles = StyleSheet.create({
 
     actionContainer: {
         height: 220,
-        top: 10,
+        top: 25,
+        paddingTop:20
         // // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -296,7 +309,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ACA567',
         borderRadius: 5,
         height: 45,
-        width: 300,
+        width: '100%',
         paddingvertical: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -309,7 +322,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 20,
         height: 45,
-        width: 300,
+        width: "100%",
         // paddingvertical: 5,
         alignItems: 'center',
         justifyContent: 'center',

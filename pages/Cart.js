@@ -141,11 +141,11 @@ export default function Cart({ route, navigation }) {
                             source={require('../assets/EmptyCart.json')}
                         />
                     </View> */}
-
+ {addedCard()}
 
                     <Text style={{ alignItems: 'center', justifyContent: 'center' }}>Your cart is empty</Text>
 
-                    {addedCard()}
+                   
 
                 </View>
 
@@ -164,9 +164,9 @@ export default function Cart({ route, navigation }) {
                     </TouchableOpacity >
                     <Text></Text>
 
-                    <TouchableOpacity style={styles.actionButton} onPress={() => { navigation.navigate('main') }} >
+                    <TouchableOpacity style={styles.actionButton1} onPress={() => { navigation.navigate('main') }} >
 
-                        <Text style={styles.signIn} >
+                        <Text style={styles.register} >
                             Add Items</Text>
 
                     </TouchableOpacity >
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
 
     inputContainer: {
         // height:90,
-        flex: 1,
+        // flex: 1,
         top: 20,
         // backgroundColor: "blue"
     },
@@ -336,5 +336,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
+
+    actionButton1: {
+        // flex: 1,
+        backgroundColor: 'transparent',
+        borderRadius: 10,
+        height: 45,
+        width: 150,
+        paddingvertical: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: "center",
+        color: 'black',
+        borderColor:' #ACA567',
+        borderWidth:0.5
+    },
+    register: {
+      color: '#ACA567',
+      fontWeight:"400",
+      letterSpacing:2
+    
+    
+    }
 
 });

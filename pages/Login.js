@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -56,20 +56,20 @@ export default function Login({navigation}) {
         currentUser().then((responseData) => {
             // console.log('responseData', responseData);
 
-            if (responseData.email ) {
+            if (responseData.email) {
                 Alert.alert('Success', 'User Successfully Logged in successfully')
-                navigation.navigate('home',{email: responseData.email})
+                navigation.navigate('home', { email: responseData.email })
             }
             else {
 
                 Alert.alert("Invaild, Please Enter the Correct Email or Password")
             }
 
-          
+
         })
 
     })
-    
+
 
     return (
 
@@ -82,15 +82,19 @@ export default function Login({navigation}) {
                 <View style={styles.innerContainer} >
 
                     <View style={styles.inputContainer} >
-                        {/* <Text id="message" hidden className="message">User entered the incorrect Username or Password! </Text> */}
+                        {/* <Text id="message" hidden className="message">User entered the incorrect Username or Password! </Text> style={{ paddingBottom:0}}*/}
 
+                        <Text style={{ paddingBottom:3, fontSize:14}}> Email</Text>
+                        <TextInput style={styles.TextInput} placeholder="NicholasRab@gmail.com" onChangeText={(value) => setEmail(value)} value={email} />
 
-                        <TextInput style={styles.TextInput} placeholder="E-mail" onChangeText={(value) => setEmail(value)} value={email} />
-                        <TextInput secureTextEntry={true} autoCaplitalize='null' style={styles.TextInput} placeholder="Password" onChangeText={(value) => setPassword(value)} value={password} />
+                        
+
+                        <Text style={{ paddingBottom:3, fontSize:14}}> Password</Text>
+                        <TextInput secureTextEntry={true} autoCaplitalize='null' style={styles.TextInput} placeholder="**********" onChangeText={(value) => setPassword(value)} value={password} />
 
 
                         <View style={styles.actionContainer} >
-                            <TouchableOpacity  onPress={gotohomePage}style={styles.actionButton} >
+                            <TouchableOpacity onPress={gotohomePage} style={styles.actionButton} >
 
                                 <Text style={styles.signIn} >
                                     Login</Text>
@@ -98,14 +102,14 @@ export default function Login({navigation}) {
 
                             </TouchableOpacity  >
 
-                            {/* <View style={styles.actionSignButton}>
+                            <View style={styles.actionSignButton}>
 
                                 <Text style={styles.signUpAlready}>Don't have an account? </Text>
                                 <TouchableOpacity mode='contained' onPress={() => navigation.navigate('Signup')} style={{ marginLeft: 0 }} >
                                     <Text style={styles.signUp}  >Sign Up</Text>
                                 </TouchableOpacity>
 
-                            </View> */}
+                            </View>
                         </View>
 
                     </View>
@@ -156,8 +160,8 @@ const styles = StyleSheet.create({
 
     innerContainer: {
         height: 350,
-        width: 320,
-        padding: 30,
+        width: "100%",
+        padding: 20,
         // flex: 1,
         borderRadius: 10,
         // backgroundColor: 'white',
@@ -165,20 +169,39 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
+    // innerContainer: {
+    //     height: "100%",
+    //     width: "100%",
+    //     padding: 15,
+    //     // flex: 1,
+    //     borderRadius: 20,
+    //     // backgroundColor: 'white',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    // },
+
     inputContainer: {
         // height:90,
         flex: 1,
         top: 20,
         // backgroundColor: "blue"
+        // height: 220,
+        // top: 40,
+        // borderWidth:1,
+        width:"100%"
+        // // backgroundColor: 'blue',
+        // alignItems: 'center',
+        // justifyContent: 'center',
     },
 
     TextInput: {
         height: 45,
-        width: 300,
+        width: '100%',
         borderRadius: 10,
         borderWidth: 2,
         marginVertical: 10,
         padding: 10,
+        paddingBottom:10,
         borderColor: '#c4c4c4',
 
 
@@ -187,6 +210,8 @@ const styles = StyleSheet.create({
     actionContainer: {
         height: 220,
         top: 10,
+
+        paddingTop: 30,
         // // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -196,7 +221,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ACA567',
         borderRadius: 10,
         height: 45,
-        width: 300,
+        width: "100%",
         paddingvertical: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -209,7 +234,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 20,
         height: 45,
-        width: 300,
+        width: '100%',
         // paddingvertical: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -225,7 +250,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // marginTop: 19,
-        color: '#e55d85',
+        color: '#ACA567',
         fontSize: 15,
         textDecorationLine: 'underline'
     },
