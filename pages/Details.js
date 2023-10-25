@@ -8,6 +8,7 @@ import { useRoute } from '@react-navigation/native';
 import { CartContext } from '../CartContext/cartContext';
 import { serverTimestamp } from '@firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 // import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 
@@ -85,6 +86,12 @@ export default function Details({ route, navigation }) {
             quantity: value,
             price: price
         }
+
+        showMessage({
+            message: "Great, Item Was Added to Cart",
+            // description: "This is our second message",
+            type: "success",
+        });
 
         addToCart(addedItem)
 
@@ -164,9 +171,9 @@ export default function Details({ route, navigation }) {
                     </View>
 
                 </ScrollView>
-
+                <FlashMessage position={"top"} />
             </View>
-
+           
         </View>
     )
 }

@@ -124,9 +124,12 @@ export default function Cart({ route, navigation }) {
             </View>
 
 
-            <ScrollView style={styles.BottomContainer}>
+            <View style={styles.BottomContainer}>
+                <Text style={{ alignItems: 'center', justifyContent: 'center' }}>Your cart is empty</Text>
 
-                <View style={styles.innerContainer} >
+
+
+                <ScrollView style={styles.innerContainer} >
 
                     {/* <View style={styles.animationContainer}>
                         <LottieView
@@ -140,23 +143,23 @@ export default function Cart({ route, navigation }) {
                             // Find more Lottie files at https://lottiefiles.com/featured
                             source={require('../assets/EmptyCart.json')}
                         />
-                    </View> */}
- {addedCard()}
+                    </View>  */}
 
-                    <Text style={{ alignItems: 'center', justifyContent: 'center' }}>Your cart is empty</Text>
-
-                   
-
-                </View>
+                    {addedCard()}
 
 
-            </ScrollView>
+
+
+                </ScrollView>
+
+
+            </View>
 
             <View style={styles.TotalContainer}>
                 <Text style={styles.appTotal}>Total Amount :                                 R {total}</Text>
 
                 <View style={styles.actionContainer} >
-                    <TouchableOpacity onPress={() => { navigation.navigate('checkout', ) }} style={styles.actionButton} >
+                    <TouchableOpacity onPress={() => { navigation.navigate('checkout',) }} style={styles.actionButton} >
 
                         <Text style={styles.signIn} >
                             Go to checkout</Text>
@@ -224,12 +227,12 @@ const styles = StyleSheet.create({
     },
 
     BottomContainer: {
-        flex: 0,
+        flex: 1,
         // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
         width: '100%',
-        // height:200
+        height:300,
         paddingBottom: 10,
         // borderTopWidth:0.5,
         // borderBlockColor:"#c4c4c4"
@@ -237,13 +240,13 @@ const styles = StyleSheet.create({
     },
 
     innerContainer: {
-        height: 450,
+        height: 350,
         width: "100%",
-        padding: 10,
+        padding: 12,
         // flex: 1,
         borderRadius: 20,
-        marginBottom: 5,
-        // backgroundColor: 'blue',
+        marginBottom: 0,
+        backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
     },
@@ -348,15 +351,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: "center",
         color: 'black',
-        borderColor:' #ACA567',
-        borderWidth:0.5
+        borderColor: ' #ACA567',
+        borderWidth: 0.5
     },
     register: {
-      color: '#ACA567',
-      fontWeight:"400",
-      letterSpacing:2
-    
-    
+        color: '#ACA567',
+        fontWeight: "400",
+        letterSpacing: 2
+
+
     }
 
 });

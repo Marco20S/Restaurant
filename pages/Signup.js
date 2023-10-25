@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { auth, database } from '../Config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from '@firebase/firestore';
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function Signup({ navigation }) {
 
@@ -25,14 +26,26 @@ export default function Signup({ navigation }) {
                 newUser()
                 newUsers()
 
-                Alert.alert('Success', 'User Registered successfully')
+                showMessage({
+                    message: "Great, You Have Registered successfully",
+                    // description: "This is our second message",
+                    type: "success",
+                });
+
+                // Alert.alert('Great', 'You Have Registered successfully')
 
                 navigation.navigate('Login')
 
             }).catch((error) => {
 
                 console.log(error.message)
-                Alert.alert("Warning", "An Error occured when trying to add new user ")
+
+                showMessage({
+                    message: "Warning, An Error occured When Add New User ",
+                    // description: "This is our second message",
+                    type: "danger",
+                });
+                // Alert.alert("Warning", "An Error occured when trying to add new user ")
 
             })
         // navigation.navigate('login')
@@ -226,6 +239,7 @@ export default function Signup({ navigation }) {
                 </View>
 
             </View>
+            <FlashMessage position={"top"} />
         </View>
     )
 

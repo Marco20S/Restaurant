@@ -14,6 +14,7 @@ import { collection, doc, getDoc } from 'firebase/firestore'
 import { useEffect } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import { StripeProvider } from '@stripe/stripe-react-native'
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 import OnBoarding from './pages/OnBoarding';
 import Signup from './pages/Signup';
@@ -149,8 +150,8 @@ export default function App() {
 
             <Stack.Navigator screenOptions={{}} >
               {/* <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
-            <Stack.Screen name='Signup' component={Signup} />
-            <Stack.Screen name='Login' component={Login} /> */}
+              <Stack.Screen name='Signup' component={Signup} />
+              <Stack.Screen name='Login' component={Login} /> */}
               <Stack.Screen options={{ headerShown: false }} name='home' component={HomeTab} />
               <Stack.Screen options={{ headerShown: false }} name='checkout' component={Checkout} />
               <Stack.Screen options={{ headerShown: false }} name='payment' component={Checkout} />

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 // import { } from 'react-native-gesture-handler';
 import { CartContext } from '../CartContext/cartContext';
 import { Avatar, Button, Card } from 'react-native-paper';
-
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import { usePaymentSheet } from "@stripe/stripe-react-native"
 
 export default function Checkout({ navigation }) {
@@ -15,9 +15,9 @@ export default function Checkout({ navigation }) {
   const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     initializePaymentIntent();
-  },[])
+  }, [])
 
   function addedCard() {
 
@@ -75,7 +75,7 @@ export default function Checkout({ navigation }) {
 
     const { paymentIntent } = await response.json()
     console.log(paymentIntent);
-    return {paymentIntent}
+    return { paymentIntent }
 
 
   }
@@ -91,9 +91,9 @@ export default function Checkout({ navigation }) {
       allowsDelayedPaymentMethods: true
     })
 
-    if (error){
+    if (error) {
       Alert.alert('Error')
-    } else{
+    } else {
       setReady(true)
     }
 
@@ -102,13 +102,23 @@ export default function Checkout({ navigation }) {
 
   //buy function
 
-  const buy = async () =>{
-    const {error} = await presentPaymentSheet()
+  const buy = async () => {
+    const { error } = await presentPaymentSheet()
     // console.log( "line 207 buy fuction",error);
-    if (error){
-      Alert.alert('Error')
-    } else{
-      Alert.alert('Great',"Your payment has been verified, Your food is coming your way")
+    if (error) {
+      showMessage({
+        message: "Error, Your payment was not successful ",
+        // description: "This is our second message",
+        type: "danger",
+      });
+      // Alert.alert('Error')
+    } else {
+      showMessage({
+        message: "Great, Your payment has been verified, Your food is coming your way ",
+        // description: "This is our second message",
+        type: "success",
+      });
+      // Alert.alert('Great',"Your payment has been verified, Your food is coming your way")
       clearCart()
       navigation.navigate('main')
     }
@@ -130,45 +140,7 @@ export default function Checkout({ navigation }) {
       <ScrollView style={styles.BottomContainer}>
 
         <View style={styles.innerContainer} >
-<View>
-          {/* <View style={styles.animationContainer}>
-                <LottieView
-                    autoPlay
-                    ref={animation}
-                    style={{
-                        width: 200,
-                        height: 200,
-                        backgroundColor: '#eee',
-                    }}
-                    // Find more Lottie files at https://lottiefiles.com/featured
-                    source={require('../assets/EmptyCart.json')}
-                />
-            </View> onPress={logout}* style={{ height: "100%" }}/}
-
           
-
-            {/* <Card contentStyle={{ backgroundColor: "white" }}>
-              <Card.Content>
-
-
-                <Text variant="titleLarge">Name</Text>
-                <TextInput style={styles.TextInput} placeholder="Name" value={address} onChangeText={(value) => setName(value)} />
-
-                <Text variant="titleLarge">Surname</Text>
-                <TextInput style={styles.TextInput} placeholder="Surname" value={address} onChangeText={(value) => setName(value)} />
-
-                <Text variant="titleLarge">Address</Text>
-                <TextInput style={styles.TextInput} placeholder="address" value={address} onChangeText={(value) => setName(value)} />
-
-                <Text variant="titleLarge">Contact</Text>
-                <TextInput style={styles.TextInput} placeholder="Contact" value={address} onChangeText={(value) => setName(value)} />
-
-
-
-              </Card.Content>
-
-
-            </Card> */}
 
             <View>
               <Text style={{ fontSize: 20 }} marginVertical={30}> Items</Text>
@@ -187,7 +159,7 @@ export default function Checkout({ navigation }) {
               </View>
 
             </View>
-          </View>
+          
 
 
 
@@ -197,6 +169,7 @@ export default function Checkout({ navigation }) {
 
 
       </ScrollView>
+      <FlashMessage position={"top"} />
     </View>
   )
 }
@@ -363,16 +336,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: "center",
     color: 'black',
-    borderColor:' #ACA567',
-    borderWidth:0.5
-},
-register: {
-  color: '#ACA567',
-  fontWeight:"400",
-  letterSpacing:2
+    borderColor: ' #ACA567',
+    borderWidth: 0.5
+  },
+  register: {
+    color: '#ACA567',
+    fontWeight: "400",
+    letterSpacing: 2
 
 
-}
+  }
 
 
 });

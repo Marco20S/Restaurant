@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
+
 
 
 export default function Login({ navigation }) {
@@ -57,12 +59,23 @@ export default function Login({ navigation }) {
             // console.log('responseData', responseData);
 
             if (responseData.email) {
-                Alert.alert('Success', 'User Successfully Logged in successfully')
+                showMessage({
+                    message: "User Has Successfully Logged in",
+                    // description: "This is our second message",
+                    type: "success",
+                    
+                });
+                // Alert.alert('Success', 'User Has Successfully Logged in')
                 navigation.navigate('home', { email: responseData.email })
             }
             else {
+                showMessage({
+                    message: "Invaild, Please Enter the Correct Email or Password",
+                    // description: "This is our second message",
+                    type: "danger",
+                });
 
-                Alert.alert("Invaild, Please Enter the Correct Email or Password")
+                // Alert.alert("Invaild, Please Enter the Correct Email or Password")
             }
 
 
@@ -84,12 +97,12 @@ export default function Login({ navigation }) {
                     <View style={styles.inputContainer} >
                         {/* <Text id="message" hidden className="message">User entered the incorrect Username or Password! </Text> style={{ paddingBottom:0}}*/}
 
-                        <Text style={{ paddingBottom:3, fontSize:14}}> Email</Text>
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Email</Text>
                         <TextInput style={styles.TextInput} placeholder="NicholasRab@gmail.com" onChangeText={(value) => setEmail(value)} value={email} />
 
-                        
 
-                        <Text style={{ paddingBottom:3, fontSize:14}}> Password</Text>
+
+                        <Text style={{ paddingBottom: 3, fontSize: 14 }}> Password</Text>
                         <TextInput secureTextEntry={true} autoCaplitalize='null' style={styles.TextInput} placeholder="**********" onChangeText={(value) => setPassword(value)} value={password} />
 
 
@@ -119,6 +132,7 @@ export default function Login({ navigation }) {
 
 
             </View>
+            <FlashMessage position={"top"} />
         </View>
     )
 }
@@ -188,7 +202,7 @@ const styles = StyleSheet.create({
         // height: 220,
         // top: 40,
         // borderWidth:1,
-        width:"100%"
+        width: "100%"
         // // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -201,7 +215,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         marginVertical: 10,
         padding: 10,
-        paddingBottom:10,
+        paddingBottom: 10,
         borderColor: '#c4c4c4',
 
 
