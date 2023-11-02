@@ -124,12 +124,12 @@ export default function Cart({ route, navigation }) {
             </View>
 
 
-            <View style={styles.BottomContainer}>
+            <ScrollView style={styles.BottomContainer}>
                 <Text style={{ alignItems: 'center', justifyContent: 'center' }}>Your cart is empty</Text>
 
 
 
-                <ScrollView style={styles.innerContainer} >
+                <View style={styles.innerContainer} >
 
                     {/* <View style={styles.animationContainer}>
                         <LottieView
@@ -150,16 +150,16 @@ export default function Cart({ route, navigation }) {
 
 
 
-                </ScrollView>
+                </View>
 
 
-            </View>
+            </ScrollView>
 
             <View style={styles.TotalContainer}>
                 <Text style={styles.appTotal}>Total Amount :                                 R {total}</Text>
 
                 <View style={styles.actionContainer} >
-                    <TouchableOpacity onPress={() => { navigation.navigate('checkout',) }} style={styles.actionButton} >
+                    <TouchableOpacity onPress={() => { navigation.navigate('checkout', ) }} style={styles.actionButton} >
 
                         <Text style={styles.signIn} >
                             Go to checkout</Text>
@@ -197,8 +197,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
+        borderBottomWidth:0.2,
         // borderBottomWidth: 0.5,
-        // borderBlockColor: "#c4c4c4"
+        borderBlockColor: "#c4c4c4"
     },
 
     appName: {
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
     },
+
     TotalContainer: {
         // fontFamily: ' berskshire',
         // fontSize: 18,
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
         width: '100%',
-        height:300,
+        height:500,
         paddingBottom: 10,
         // borderTopWidth:0.5,
         // borderBlockColor:"#c4c4c4"
@@ -240,13 +242,13 @@ const styles = StyleSheet.create({
     },
 
     innerContainer: {
-        height: 350,
+        height: 380,
         width: "100%",
         padding: 12,
         // flex: 1,
         borderRadius: 20,
-        marginBottom: 0,
-        backgroundColor: 'blue',
+        marginBottom: 200,
+        // backgroundColor: 'blue',
         // alignItems: 'center',
         // justifyContent: 'center',
     },

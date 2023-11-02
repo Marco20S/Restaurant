@@ -87,7 +87,7 @@ export default function Profile({ route, navigation }) {
     try {
       // const url = "https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/{collection}/{documentId}";
 
-      // const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/user/${email}`;
+      // const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/user/${email.id}`;
 
       const headers = {
         Authorization: "Bearer {accessToken}",

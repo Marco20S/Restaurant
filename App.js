@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { auth } from './Config/firebase';
 import { collection, doc, getDoc } from 'firebase/firestore'
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import { StripeProvider } from '@stripe/stripe-react-native'
 import FlashMessage, { showMessage } from 'react-native-flash-message';
@@ -32,6 +32,8 @@ import MyCartProvider from './CartContext/cartContext';
 // import Main from './pages/Main';
 import Main from './pages/main';
 import Checkout from './pages/Checkout';
+// import HomeTab from './pages/HomeTab';
+
 
 
 const stripekey = 'pk_test_51O28RBGty9hvmDKbD4ZeaEN8D6HE0l2nKkmOrhKelV71bDD0xCSs8lcLzVPOlyDx6MbbJrWLUo2WDMJ5NXzqzfnr00mLiXpXGT'
@@ -58,8 +60,14 @@ const MyTheme = {
 
 export default function App() {
 
+  // const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
-  useEffect(() => { }, [])
+  const [count, setCount] = useState(0)
+
+
+  // useEffect(() => {
+  //   setCount(cartItems.length)
+  // }, [cartItems])
 
   useEffect(() => {
     console.log("outside ===== OnAuth change")
@@ -129,7 +137,7 @@ export default function App() {
         <Tab.Screen name='main' component={Main} options={{ headerShown: false, tabBarLabel: 'Home', tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="home" color={color} size={20} />), }} />
         <Tab.Screen options={{ headerShown: true, tabBarLabel: 'Cart', tabBarIcon: ({ color }) => (<MaterialIcons name="shopping-cart" size={20} color={color} />), }} name='cart' component={Cart} />
         <Tab.Screen name='favorite' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={20} color={color} />), }} component={Favourite} />
-        {/* <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} /> */}
+        {/*, tabBarBadge: count <Tab.Screen name='details' options={{ headerShown: true, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} /> */}
       </Tab.Navigator>
     )
   }
@@ -153,7 +161,7 @@ export default function App() {
               <Stack.Screen name='Signup' component={Signup} />
               <Stack.Screen name='Login' component={Login} /> */}
               <Stack.Screen options={{ headerShown: false }} name='home' component={HomeTab} />
-              <Stack.Screen options={{ headerShown: false }} name='checkout' component={Checkout} />
+              <Stack.Screen options={{ headerShown: false, }} name='checkout' component={Checkout} />
               <Stack.Screen options={{ headerShown: false }} name='payment' component={Checkout} />
               <Stack.Screen name='details' options={{ headerShown: false, tabBarLabel: 'Favorite', tabBarIcon: ({ color }) => (<MaterialIcons name="favorite" size={24} color={color} />), }} component={Details} />
 

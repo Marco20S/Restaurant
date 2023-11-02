@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, FlatList } from 'react-native'
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Avatar, Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ export default function Main({ navigation }) {
   const [menuListcombo, setMenulistCombo] = useState([])
   const [menuListSide, setMenulistSide] = useState([])
   const [menuListDrink, setMenulistDrinks] = useState([])
+  const [menuListPopular, setMenulistPopular] = useState([])
 
 
   let deviceHeight = Dimensions.get('window').height
@@ -33,6 +34,7 @@ export default function Main({ navigation }) {
     getMenulistCombo()
     getMenulistSides()
     getMenulistDrinks()
+    getMenulistPopular()
   }, [])
 
 
@@ -75,7 +77,7 @@ export default function Main({ navigation }) {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('data ', data);
+        // console.log('data ', data);
       } else {
         console.log('Error,,,', response.statusText);
       }
@@ -259,6 +261,45 @@ export default function Main({ navigation }) {
 
   }
 
+  const getMenulistPopular = async () => {
+
+    const key = 'AIzaSyDta77butI5H-YwVKXt4f0j9iz0KhdVqN4'
+    const url = `https://firestore.googleapis.com/v1/projects/restaurantapp-38fda/databases/(default)/documents/category/meals/popular`;
+
+    await fetch(url).then(
+      response => response.json()
+    ).then(
+      (json) => {
+        const documents = json.documents
+
+        let myMenuArray = []
+
+        documents.forEach(doc => {
+          const idarray = doc.name.split('/')
+
+
+          const id = idarray[idarray.length - 1];
+
+          myMenuArray.push({
+            id: id,
+            ...doc.fields
+          })
+
+
+        })
+
+        console.log(" records ..........", myMenuArray);
+
+        setMenulistPopular(myMenuArray)
+
+
+      }
+    ).catch(
+      error => console.log("error", error)
+    );
+
+  }
+
 
   const menuItems = () => {
     getMenulistMain()
@@ -273,7 +314,7 @@ export default function Main({ navigation }) {
       return (
         // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
 
-        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+        <Card  style={{ width: "46%", marginHorizontal: "2%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
 
           <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
             <Card.Cover source={{ uri: data.image?.stringValue }} />
@@ -294,7 +335,7 @@ export default function Main({ navigation }) {
 
 
 
-        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+        <Card  style={{ width: "45%", marginHorizontal: "2%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
 
           <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
             <Card.Cover source={{ uri: data.image?.stringValue }} />
@@ -315,7 +356,7 @@ export default function Main({ navigation }) {
 
 
 
-        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+        <Card  style={{ width: "45%", marginHorizontal: "2%", marginVertical: '2%'  }} borderWidth={0.001} borderColor='#ACA567' >
 
           <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
             <Card.Cover source={{ uri: data.image?.stringValue }} />
@@ -336,7 +377,28 @@ export default function Main({ navigation }) {
 
 
 
-        <Card style={{ width: "48%", marginHorizontal: "1%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+        <Card  style={{ width: "45%", marginHorizontal: "2%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
+
+          <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
+            <Card.Cover source={{ uri: data.image?.stringValue }} />
+
+            <Card.Title title={data.name?.stringValue} subtitle={`R ${data.price?.stringValue}`} />
+          </TouchableOpacity>
+
+        </Card>
+        // </View>
+      )
+    })
+  }
+
+  function displayPopular() {
+    return menuListPopular.map((data, index) => {
+      return (
+        // <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}>
+
+
+
+        <Card style={{ width: "45%", marginHorizontal: "2%", marginVertical: '2%' }} borderWidth={0.001} borderColor='#ACA567' >
 
           <TouchableOpacity onPress={() => { navigation.navigate('details', { data: data }) }}>
             <Card.Cover source={{ uri: data.image?.stringValue }} />
@@ -371,15 +433,49 @@ export default function Main({ navigation }) {
 
       return displaySide()
 
-    } else if(catagory === "Drinks"){
+    } else if (catagory === "Drinks") {
       return displayDrinks()
 
-    }else
-    {
+    } else {
 
-      <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View>
+      <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Items</Text></View>
 
-      return <Text>Popular Meals</Text>
+      return displayPopular()
+    }
+
+  }
+
+  function displayTitle(catagory) {
+
+    if (catagory === "Meals") {
+
+      return <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10, }} > Meals</Text></View>
+
+      // return displayMains()
+
+    } else if (catagory === "Combos") {
+
+
+      return <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Combos</Text></View>
+
+      // return displayCombo()
+
+    } else if (catagory === "Sides") {
+
+      return <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Sides</Text></View>
+
+      // return displaySide()
+
+    } else if (catagory === "Drinks") {
+
+      return <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Sides</Text></View>
+      // return displayDrinks()
+
+    } else {
+
+      return <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10, alignItems: 'flex-end' }} >Popular Meals</Text></View>
+
+      // return displayPopular()
     }
 
   }
@@ -429,18 +525,20 @@ export default function Main({ navigation }) {
 
           <View style={[{ ...styles.cardSelection, borderBottomWidth: 'Drinks' == catagory ? 2 : 0 }]}>
             <TouchableOpacity onPress={() => setCatagory("Drinks")}>
-              <Avatar.Image size={60} source={require('../assets/rest/whitewine.jpg')} />
+              <Avatar.Image size={60} source={require('../assets/rest/mixed-berry.jpg')} />
               <Text style={{ color: 'Drinks' == catagory ? '#ACA567' : null }}>   Drinks</Text>
             </TouchableOpacity>
           </View>
 
-
+        </View>
+        <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start', paddingLeft:10 }}>
+          {
+            displayTitle(catagory)
+          }
 
         </View>
 
-
       </View>
-
 
 
       <ScrollView style={styles.BottomContainer}>
@@ -448,9 +546,11 @@ export default function Main({ navigation }) {
         {/* <View><Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 10, paddingTop: 10 }} >Popular Meals</Text></View> */}
 
 
-        {/* <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width: 350 }}> */}
-        <View style={{ flex: 0, flexDirection: 'row', flexWrap: 'wrap', width:350 }}>
+        {/* <View style={{  flexDirection: 'row', flexWrap: 'wrap', width: 350 }}> */}
+        <View style={{ flex: 0 ,flexDirection: 'row', flexWrap: 'wrap', width: 355, borderWidth:0}}>
 
+
+          <Text></Text>
           {
             display(catagory)
           }
@@ -459,7 +559,7 @@ export default function Main({ navigation }) {
         </View>
 
       </ScrollView>
-     
+
     </View>
 
 
@@ -498,10 +598,11 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: 'blue',
     paddingLeft: 5,
+    paddingRight:5,
     paddingBottom: 10,
     // alignItems: 'center',
     // justifyContent: 'center',
-    width: '100%',
+    // width: '100%',
     // height: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -524,6 +625,7 @@ const styles = StyleSheet.create({
 
 
   },
+  
   innerProductContainer: {
     // height: 350,
     // width: '50%',
