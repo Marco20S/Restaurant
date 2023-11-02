@@ -79,7 +79,7 @@ export default function Cart({ route, navigation }) {
 
             return (
 
-                <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }} style={{ padding: 20, marginBottom: 5, }}>
+                <Card height={"30%"} contentStyle={{ alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}  style={{ padding: 20, marginBottom: 5, borderWidth: 1, borderColor: 'gray' }}>
 
                     <View style={{ flex: 0.6 }}>
                         <Avatar.Image size={90} source={{ uri: item.uri }} />
@@ -90,6 +90,7 @@ export default function Cart({ route, navigation }) {
                         <Text style={{ fontSize: 14, paddingBottom: 10 }} > {item.name}  </Text>
                         {/* <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: R {price} </Text> */}
                         <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Quantity: {item.quantity} </Text>
+                        <Text style={{ fontSize: 12, paddingBottom: 10 }}>  Price: {item.price} </Text>
 
                     </View>
 

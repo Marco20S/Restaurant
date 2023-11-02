@@ -75,7 +75,7 @@ export default function App() {
     auth.onAuthStateChanged(async (name) => {
 
       if (name) {
-        console.log("OnAuth change", name)
+        console.log("OnAuth change", name.email)
 
         // const emailRef = await getDoc(doc(database, 'admin', user.email))
         // const emailRef = doc(collection(database, 'admin', user.email))
