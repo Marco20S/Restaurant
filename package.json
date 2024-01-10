@@ -30,7 +30,8 @@
     "react-native-reanimated": "~3.3.0",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
-    "stripe": "^14.1.0"
+    "stripe": "^14.1.0",
+    "expo-updates": "~0.18.17"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

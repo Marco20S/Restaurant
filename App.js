@@ -157,9 +157,9 @@ export default function App() {
           < NavigationContainer theme={MyTheme} >
 
             <Stack.Navigator screenOptions={{}} >
-              {/* <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
+              <Stack.Screen options={{ headerShown: false }} name='onBoarding' component={OnBoarding} />
               <Stack.Screen name='Signup' component={Signup} />
-              <Stack.Screen name='Login' component={Login} /> */}
+              <Stack.Screen name='Login' component={Login} />
               <Stack.Screen options={{ headerShown: false }} name='home' component={HomeTab} />
               <Stack.Screen options={{ headerShown: false, }} name='checkout' component={Checkout} />
               <Stack.Screen options={{ headerShown: false }} name='payment' component={Checkout} />
